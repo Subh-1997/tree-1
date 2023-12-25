@@ -147,3 +147,126 @@ class Solution {
          return list;
     }
 }
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Maximum Depth of Binary Tree
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root==null) return 0;
+        return Math.max(maxDepth(root.left),maxDepth(root.right))+1;
+    }
+}
+ -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6.Symmetric Tree
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+ public boolean isSymmetricHelp(TreeNode left,TreeNode right){
+     
+     if(left==null || right==null)return left==right;
+
+     if(left.val!=right.val){
+     return false;
+     }
+     return isSymmetricHelp(left.left, right.right)&&isSymmetricHelp(left.right, right.left);
+
+ }
+
+    public boolean isSymmetric(TreeNode root) {
+       return isSymmetricHelp(root.left,root.right);
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7.Maximum Level Sum of a Binary Tree
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int maxLevelSum(TreeNode root) {
+       
+        Queue<TreeNode> q = new LinkedList<>();
+        if(root==null){return 0;}
+        int maxSum = Integer.MIN_VALUE;
+        int count=0;
+        int level=0;
+        q.offer(root);
+        while(!q.isEmpty()){
+            int size =  q.size();
+            int sum=0; 
+            count++;          
+            List<Integer> curr = new  ArrayList<>();
+            for(int i=0; i<size; i++){
+                TreeNode node=q.poll();
+                sum+=node.val;
+                if(node.left!=null){
+                    q.offer(node.left);
+                }
+                if(node.right!=null){
+                    q.offer(node.right);
+                }
+               
+               
+            }
+           if(sum>maxSum){
+               maxSum = sum;
+               level=count;
+           }
+        }
+        return level;
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8.Sum Root to Leaf Numbers
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        return sumOfNodes(root,0);
+    }
+    public int sumOfNodes(TreeNode root,int currSum){
+        if(root==null)return 0;
+        currSum = currSum * 10 + root.val;
+        if(root.left==null && root.right==null)return currSum;
+        int left=sumOfNodes(root.left,currSum);
+        int right=sumOfNodes(root.right,currSum);
+        return left+right;
+    }
+}
